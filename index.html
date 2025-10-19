@@ -1,0 +1,22 @@
+---
+layout: home
+itle: Hansol’s Blog
+---
+
+# 👋 Welcome to Hansol’s Tech Blog
+
+AI, Python, 그리고 다양한 기술에 대한 인사이트를 공유합니다.  
+데이터와 기술이 만나는 지점에서 얻은 경험들을 기록합니다.
+
+---
+
+## 📝 Recent Posts
+{% for post in site.posts limit:5 %}
+- **[{{ post.title }}]({{ post.url | relative_url }})**  
+  <small>{{ post.date | date: "%Y-%m-%d" }}</small>  
+  {{ post.excerpt | strip_html | truncate: 120 }}
+{% endfor %}
+
+---
+
+[📚 모든 글 보기]({{ '/posts' | relative_url }}) 
