@@ -255,8 +255,9 @@ let transTheme = () => {
 // "system". Default is "system".
 let determineThemeSetting = () => {
   let themeSetting = localStorage.getItem("theme");
+  // 저장된 테마 설정이 없거나 이상하면 무조건 "dark"로 설정
   if (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") {
-    themeSetting = "system";
+    themeSetting = "dark"; // <--- 여기를 "dark"로 바꿔주세요!
   }
   return themeSetting;
 };
