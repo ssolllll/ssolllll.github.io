@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://ssolllll.github.io/al-folio/sitemap.xml
