@@ -280,7 +280,6 @@ GEM
     webrick (1.9.1)
 
 PLATFORMS
-  aarch64-linux
   aarch64-linux-gnu
   aarch64-linux-musl
   arm-linux-gnu
@@ -290,7 +289,6 @@ PLATFORMS
   arm64-darwin
   x64-mingw-ucrt
   x86_64-darwin
-  x86_64-linux
   x86_64-linux-gnu
   x86_64-linux-musl
 
