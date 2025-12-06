@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-a-post-with-plotly-js",
+        },{id: "post-python-llm-추론-최적화를-위한-collections-모듈-심층-분석",
+        
+          title: "[Python] LLM 추론 최적화를 위한 collections 모듈 심층 분석",
+        
+        description: "단순한 문법 소개가 아닌, LLM 서빙 및 데이터 파이프라인에서 Latency와 메모리를 절약하는 Engineering Technique으로서의 collections 모듈 분석.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/python-package-collections/";
+          
+        },
+      },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
         
