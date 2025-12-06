@@ -37,13 +37,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "nav-cv",
-          title: "cv",
-          description: "This is a description of the page. You can modify it in &#39;_pages/cv.md&#39;. You can also change or remove the top pdf download button.",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/cv/";
-          },
         },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
@@ -401,32 +394,7 @@ ninja.data = [{
             },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
           title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
           description: "",
-          section: "News",},{id: "projects-project-1",
-          title: 'project 1',
-          description: "with background image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/1_project/";
-            },},{id: "projects-project-2",
-          title: 'project 2',
-          description: "a project with a background image and giscus comments",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/2_project/";
-            },},{id: "projects-project-3-with-very-long-name",
-          title: 'project 3 with very long name',
-          description: "a project that redirects to another website",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/3_project/";
-            },},{id: "projects-project-4",
-          title: 'project 4',
-          description: "another without an image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/4_project/";
-            },},{id: "projects-project-5",
-          title: 'project 5',
-          description: "a project with a background image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/5_project/";
-            },},{id: "projects-project-6",
+          section: "News",},{id: "projects-project-6",
           title: 'project 6',
           description: "a project with no image",
           section: "Projects",handler: () => {
@@ -446,6 +414,31 @@ ninja.data = [{
           description: "another project with an image 🎉",
           section: "Projects",handler: () => {
               window.location.href = "/projects/9_project/";
+            },},{id: "projects-사이버-보안-위협-탐지-ai-연구",
+          title: '사이버 보안 위협 탐지 AI 연구',
+          description: "HTTP 패킷 분석을 위한 도메인 특화 Tokenizer 개발 및 이상 탐지(Anomaly Detection) 모델 연구",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/ctilab-1-research/";
+            },},{id: "projects-금융-및-공공기관-보안-ai-poc",
+          title: '금융 및 공공기관 보안 AI POC',
+          description: "신한은행 및 국회도서관 대상 위협 탐지 모델 고도화 및 ETL 파이프라인 구축",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/ctilab-2-poc/";
+            },},{id: "projects-사내-규정-검색-rag-챗봇",
+          title: '사내 규정 검색 RAG 챗봇',
+          description: "LLM과 Vector DB를 활용하여 사내 문서를 검색하는 시스템 구축",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/etners-1-chatbot/";
+            },},{id: "projects-aicc-ai-contact-center-고도화",
+          title: 'AICC (AI Contact Center) 고도화',
+          description: "Whisper STT 및 KV Caching 도입을 통한 음성 응답률 21.4% → 97.3% 개선",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/etners-2-aicc/";
+            },},{id: "projects-학자금-지원-서류-자동화-에이전트",
+          title: '학자금 지원 서류 자동화 에이전트',
+          description: "GPT-Vision과 OCR을 활용한 비정형 문서 데이터 추출 및 검증 자동화",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/etners-3-vision/";
             },},{
         id: 'social-cv',
         title: 'CV',
