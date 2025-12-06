@@ -1,26 +1,26 @@
 ---
 layout: post
-title: '[Python] LLM 추론 최적화를 위한 collections 모듈 심층 분석'
+title: '[Python] collections 모듈 심층 분석'
 date: 2025-12-05 10:00:00
-description: 단순한 문법 소개가 아닌, LLM 서빙 및 데이터 파이프라인에서 Latency와 메모리를 절약하는 Engineering Technique으로서의 collections 모듈 분석.
+description: 단순한 문법 소개가 아닌, 나에게 있어 필요한 collections 모듈 분석.
 tags: python llm optimization backend
 categories: engineering
 ---
 
-LLM(Large Language Model) 서비스를 개발하다 보면 모델 자체의 추론 속도(Inference Latency)뿐만 아니라, 전후처리 파이프라인(Pre/Post-processing Pipeline)의 효율성이 전체 시스템 성능을 좌우하는 경우를 자주 마주한다.
+LLM Model 서비스를 개발하다 보면 모델 자체의 추론 속도뿐만 아니라, 전후처리 파이프라인의 효율성이 전체 시스템 성능을 좌우하는 경우를 자주 마주합니다.ㄴ
 
-특히 Python의 기본 자료구조(`list`, `dict`)는 범용적이지만, **실시간 스트리밍 처리가 필요한 Chat Completions API**나 **수십만 개의 Vector Search 결과를 다루는 RAG(Retrieval-Augmented Generation)** 과정에서는 미세한 성능 저하와 불필요한 메모리 점유의 원인이 된다.
+특히 Python의 기본 자료구조(`list`, `dict`)는 범용적이지만, **실시간 스트리밍 처리가 필요한 Chat Completions API**나 **수십만 개의 Vector Search 결과를 다루는 RAG(Retrieval-Augmented Generation)** 과정에서는 미세한 성능 저하와 불필요한 메모리 점유의 원인이 됩니다.
 
-본 포스트에서는 `collections` 모듈을 단순한 편의 도구가 아닌, **엔지니어링 관점의 최적화 도구**로 재해석하고 LLM 실무 적용 사례를 기록한다.
+`collections` 모듈을 단순한 편의 도구가 아닌, **엔지니어링 관점의 최적화 도구**로 재해석하고 LLM 실무 적용 사례를 기록합니다.
 
 ---
 
 ## 1. deque: Context Window 관리와 Streaming Buffer
 
-LLM은 입력 가능한 토큰 길이(Context Window)에 물리적 한계가 있다. 챗봇 구현 시 가장 오래된 대화를 삭제하고 새 대화를 넣는 **Sliding Window** 전략이 필수적이다. 또한, SSE(Server-Sent Events) 스트리밍 시 문장 단위 처리를 위한 버퍼링에도 큐 구조가 필요하다.
+LLM은 입력 가능한 토큰 길이에 물리적 한계가 있다. 챗봇 구현 시 가장 오래된 대화를 삭제하고 새 대화를 넣는 **Sliding Window** 전략이 필수적이다. 또한, SSE(Server-Sent Events) 스트리밍 시 문장 단위 처리를 위한 버퍼링에도 큐 구조가 필요합니다.
 
 ### 🔴 Bad Practice: `list` 사용
-Python의 `list`는 동적 배열(Dynamic Array)이다. `pop(0)` 연산은 첫 번째 요소를 제거한 뒤, 나머지 **모든 요소의 인덱스를 한 칸씩 당겨오는(Shift)** 작업을 수행한다.
+Python의 `list`는 동적 배열(Dynamic Array)이다. `pop(0)` 연산은 첫 번째 요소를 제거한 뒤, 나머지 **모든 요소의 인덱스를 한 칸씩 당겨오는(Shift)** 작업을 수행합니다.
 * **시간 복잡도:** $O(N)$
 * **문제점:** 대화 턴(Turn)이 길어질수록, 동시 접속자가 늘어날수록 CPU 사이클을 낭비하며, GC(Garbage Collection) 압력을 높인다.
 
