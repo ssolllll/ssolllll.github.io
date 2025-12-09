@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-python-collections-모듈-심층-분석",
+        },{id: "post-transformers-llm-성능의-시작점-tokenizer-최적화-및-활용-전략",
+        
+          title: "[Transformers] LLM 성능의 시작점, Tokenizer 최적화 및 활용 전략",
+        
+        description: "Hugging Face Tokenizer의 Rust 기반 가속, Dynamic Padding을 통한 연산량 절감, 그리고 Chat Template을 활용한 프롬프트 엔지니어링 표준화 가이드.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/transformers-optimization/";
+          
+        },
+      },{id: "post-python-collections-모듈-심층-분석",
         
           title: "[Python] collections 모듈 심층 분석",
         
