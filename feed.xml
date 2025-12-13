@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ssolllll.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://ssolllll.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-12-09T12:19:45+00:00</updated><id>https://ssolllll.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">[Transformers] LLM 성능의 시작점, Tokenizer 최적화 및 활용 전략</title><link href="https://ssolllll.github.io/blog/2025/transformers-optimization/" rel="alternate" type="text/html" title="[Transformers] LLM 성능의 시작점, Tokenizer 최적화 및 활용 전략"/><published>2025-12-07T18:00:00+00:00</published><updated>2025-12-07T18:00:00+00:00</updated><id>https://ssolllll.github.io/blog/2025/transformers-optimization</id><content type="html" xml:base="https://ssolllll.github.io/blog/2025/transformers-optimization/"><![CDATA[<p>LLM 엔지니어링에서 모델(Model) 아키텍처나 양자화(Quantization)에는 많은 관심을 갖지만, 정작 데이터가 모델로 들어가는 첫 관문인 <strong>Tokenizer</strong>의 효율성은 간과하는 경우가 많다.</p> <p>하지만 수십 기가바이트의 텍스트를 처리하는 Pre-training/Fine-tuning 단계나, 실시간으로 요청을 처리하는 Serving 단계에서 비효율적인 Tokenizer 사용은 전체 파이프라인의 <strong>심각한 병목(Bottleneck)</strong>이 될 수 있다.</p> <p>이번 포스트에서는 <code class="language-plaintext highlighter-rouge">transformers</code> 라이브러리의 Tokenizer를 엔지니어링 관점에서 100% 활용하는 세 가지 핵심 전략을 다룬다.</p> <hr/> <h2 id="1-fast-tokenizer-rust의-속도를-빌려라">1. Fast Tokenizer: Rust의 속도를 빌려라</h2> <p>Hugging Face의 <code class="language-plaintext highlighter-rouge">transformers</code>는 두 가지 타입의 토크나이저를 제공한다.</p> <ol> <li><strong>Python Tokenizer:</strong> 순수 파이썬 구현체. 느리다.</li> <li><strong>Fast Tokenizer:</strong> Rust로 구현된 <code class="language-plaintext highlighter-rouge">tokenizers</code> 라이브러리 래퍼(Wrapper). 매우 빠르다.</li> </ol> <p>대부분 <code class="language-plaintext highlighter-rouge">AutoTokenizer.from_pretrained()</code>를 호출하면 자동으로 Fast 버전을 가져오지만, 명시적으로 확인하고 사용하는 습관이 중요하다.</p> <h3 id="-성능-차이-벤치마크">⚡ 성능 차이 벤치마크</h3> <p>수백만 건의 데이터를 전처리할 때, 이 속도 차이는 데이터 로딩 시간(Data Loading Time)을 몇 시간에서 몇 분으로 줄여준다.</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ssolllll.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://ssolllll.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-12-13T07:06:13+00:00</updated><id>https://ssolllll.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">[Transformers] LLM 성능의 시작점, Tokenizer 최적화 및 활용 전략</title><link href="https://ssolllll.github.io/blog/2025/transformers-optimization/" rel="alternate" type="text/html" title="[Transformers] LLM 성능의 시작점, Tokenizer 최적화 및 활용 전략"/><published>2025-12-07T18:00:00+00:00</published><updated>2025-12-07T18:00:00+00:00</updated><id>https://ssolllll.github.io/blog/2025/transformers-optimization</id><content type="html" xml:base="https://ssolllll.github.io/blog/2025/transformers-optimization/"><![CDATA[<p>LLM 엔지니어링에서 모델(Model) 아키텍처나 양자화(Quantization)에는 많은 관심을 갖지만, 정작 데이터가 모델로 들어가는 첫 관문인 <strong>Tokenizer</strong>의 효율성은 간과하는 경우가 많다.</p> <p>하지만 수십 기가바이트의 텍스트를 처리하는 Pre-training/Fine-tuning 단계나, 실시간으로 요청을 처리하는 Serving 단계에서 비효율적인 Tokenizer 사용은 전체 파이프라인의 <strong>심각한 병목(Bottleneck)</strong>이 될 수 있다.</p> <p>이번 포스트에서는 <code class="language-plaintext highlighter-rouge">transformers</code> 라이브러리의 Tokenizer를 엔지니어링 관점에서 100% 활용하는 세 가지 핵심 전략을 다룬다.</p> <hr/> <h2 id="1-fast-tokenizer-rust의-속도를-빌려라">1. Fast Tokenizer: Rust의 속도를 빌려라</h2> <p>Hugging Face의 <code class="language-plaintext highlighter-rouge">transformers</code>는 두 가지 타입의 토크나이저를 제공한다.</p> <ol> <li><strong>Python Tokenizer:</strong> 순수 파이썬 구현체. 느리다.</li> <li><strong>Fast Tokenizer:</strong> Rust로 구현된 <code class="language-plaintext highlighter-rouge">tokenizers</code> 라이브러리 래퍼(Wrapper). 매우 빠르다.</li> </ol> <p>대부분 <code class="language-plaintext highlighter-rouge">AutoTokenizer.from_pretrained()</code>를 호출하면 자동으로 Fast 버전을 가져오지만, 명시적으로 확인하고 사용하는 습관이 중요하다.</p> <h3 id="-성능-차이-벤치마크">⚡ 성능 차이 벤치마크</h3> <p>수백만 건의 데이터를 전처리할 때, 이 속도 차이는 데이터 로딩 시간(Data Loading Time)을 몇 시간에서 몇 분으로 줄여준다.</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span>
 <span class="kn">import</span> <span class="n">time</span>
 
 <span class="n">model_id</span> <span class="o">=</span> <span class="sh">"</span><span class="s">gpt2</span><span class="sh">"</span>
@@ -56,7 +56,37 @@
 <span class="nf">print</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 <span class="c1"># Llama-2인 경우: &lt;s&gt;[INST] RAG 시스템의 장점은? [/INST] 최신 정보를 ... &lt;/s&gt;&lt;s&gt;[INST] 단점은? [/INST]
 # Mistral인 경우: ... (해당 모델 포맷 자동 적용)
-</span></code></pre></div></div> <p>이 기능을 사용하면 <strong>모델 의존성(Model Dependency)을 코드에서 분리</strong>할 수 있어, 여러 모델을 실험하거나 A/B 테스트를 진행할 때 유지보수성이 극대화된다.</p> <hr/> <h2 id="결론">결론</h2> <p>Tokenizer는 단순히 자연어 처리를 위한 전처리 도구가 아니다.</p> <ul> <li><strong>Rust 기반 Fast Tokenizer</strong>로 CPU 병목을 해소하고,</li> <li><strong>Dynamic Padding</strong>으로 GPU 연산 효율을 높이며,</li> <li><strong>Chat Template</strong>으로 코드의 유연성을 확보하는 것.</li> </ul> <p>이것이 LLM 엔지니어가 갖춰야 할 “입력 파이프라인 최적화”의 기본기다. 다음 포스트에서는 이렇게 처리된 데이터를 거대 모델에 효율적으로 적재하는 <strong>Model Loading 전략</strong>에 대해 다루겠다.</p>]]></content><author><name></name></author><category term="engineering"/><category term="python"/><category term="transformers"/><category term="llm"/><category term="optimization"/><category term="nlp"/><summary type="html"><![CDATA[Hugging Face Tokenizer의 Rust 기반 가속, Dynamic Padding을 통한 연산량 절감, 그리고 Chat Template을 활용한 프롬프트 엔지니어링 표준화 가이드.]]></summary></entry><entry><title type="html">[Python] collections 모듈 심층 분석</title><link href="https://ssolllll.github.io/blog/2025/python-package-collections/" rel="alternate" type="text/html" title="[Python] collections 모듈 심층 분석"/><published>2025-12-05T10:00:00+00:00</published><updated>2025-12-05T10:00:00+00:00</updated><id>https://ssolllll.github.io/blog/2025/python-package-collections</id><content type="html" xml:base="https://ssolllll.github.io/blog/2025/python-package-collections/"><![CDATA[<p>LLM Model 서비스를 개발하다 보면 모델 자체의 추론 속도뿐만 아니라, 전후처리 파이프라인의 효율성이 전체 시스템 성능을 좌우하는 경우를 자주 마주합니다.ㄴ</p> <p>특히 Python의 기본 자료구조(<code class="language-plaintext highlighter-rouge">list</code>, <code class="language-plaintext highlighter-rouge">dict</code>)는 범용적이지만, <strong>실시간 스트리밍 처리가 필요한 Chat Completions API</strong>나 <strong>수십만 개의 Vector Search 결과를 다루는 RAG(Retrieval-Augmented Generation)</strong> 과정에서는 미세한 성능 저하와 불필요한 메모리 점유의 원인이 됩니다.</p> <p><code class="language-plaintext highlighter-rouge">collections</code> 모듈을 단순한 편의 도구가 아닌, <strong>엔지니어링 관점의 최적화 도구</strong>로 재해석하고 LLM 실무 적용 사례를 기록합니다.</p> <hr/> <h2 id="1-deque-context-window-관리와-streaming-buffer">1. deque: Context Window 관리와 Streaming Buffer</h2> <p>LLM은 입력 가능한 토큰 길이에 물리적 한계가 있다. 챗봇 구현 시 가장 오래된 대화를 삭제하고 새 대화를 넣는 <strong>Sliding Window</strong> 전략이 필수적이다. 또한, SSE(Server-Sent Events) 스트리밍 시 문장 단위 처리를 위한 버퍼링에도 큐 구조가 필요합니다.</p> <h3 id="-bad-practice-list-사용">🔴 Bad Practice: <code class="language-plaintext highlighter-rouge">list</code> 사용</h3> <p>Python의 <code class="language-plaintext highlighter-rouge">list</code>는 동적 배열(Dynamic Array)이다. <code class="language-plaintext highlighter-rouge">pop(0)</code> 연산은 첫 번째 요소를 제거한 뒤, 나머지 <strong>모든 요소의 인덱스를 한 칸씩 당겨오는(Shift)</strong> 작업을 수행합니다.</p> <ul> <li><strong>시간 복잡도:</strong> $O(N)$</li> <li><strong>문제점:</strong> 대화 턴(Turn)이 길어질수록, 동시 접속자가 늘어날수록 CPU 사이클을 낭비하며, GC(Garbage Collection) 압력을 높인다.</li> </ul> <h3 id="-best-practice-deque-circular-buffer">🟢 Best Practice: <code class="language-plaintext highlighter-rouge">deque</code> (Circular Buffer)</h3> <p><code class="language-plaintext highlighter-rouge">collections.deque</code>는 Linked List 기반의 양방향 큐다. 양 끝단에서의 삽입/삭제가 메모리 이동 없이 포인터 변경만으로 이루어진다.</p> <p><img src="/assets/img/deque_vs_list_memory.png" alt="Deque vs List Memory Structure"/></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+</span></code></pre></div></div> <p>이 기능을 사용하면 <strong>모델 의존성(Model Dependency)을 코드에서 분리</strong>할 수 있어, 여러 모델을 실험하거나 A/B 테스트를 진행할 때 유지보수성이 극대화된다.</p> <hr/> <h2 id="결론">결론</h2> <p>Tokenizer는 단순히 자연어 처리를 위한 전처리 도구가 아니다.</p> <ul> <li><strong>Rust 기반 Fast Tokenizer</strong>로 CPU 병목을 해소하고,</li> <li><strong>Dynamic Padding</strong>으로 GPU 연산 효율을 높이며,</li> <li><strong>Chat Template</strong>으로 코드의 유연성을 확보하는 것.</li> </ul> <p>이것이 LLM 엔지니어가 갖춰야 할 “입력 파이프라인 최적화”의 기본기다. 다음 포스트에서는 이렇게 처리된 데이터를 거대 모델에 효율적으로 적재하는 <strong>Model Loading 전략</strong>에 대해 다루겠다.</p>]]></content><author><name></name></author><category term="engineering"/><category term="python"/><category term="transformers"/><category term="llm"/><category term="optimization"/><category term="nlp"/><summary type="html"><![CDATA[Hugging Face Tokenizer의 Rust 기반 가속, Dynamic Padding을 통한 연산량 절감, 그리고 Chat Template을 활용한 프롬프트 엔지니어링 표준화 가이드.]]></summary></entry><entry><title type="html">[Transformers] LLM 경량화와 가속: Quantization부터 Flash Attention까지</title><link href="https://ssolllll.github.io/blog/2025/bitsandbytes/" rel="alternate" type="text/html" title="[Transformers] LLM 경량화와 가속: Quantization부터 Flash Attention까지"/><published>2025-12-07T10:00:00+00:00</published><updated>2025-12-07T10:00:00+00:00</updated><id>https://ssolllll.github.io/blog/2025/bitsandbytes</id><content type="html" xml:base="https://ssolllll.github.io/blog/2025/bitsandbytes/"><![CDATA[<p>거대 언어 모델(LLM)을 다룰 때 가장 큰 장벽은 ‘비용’이다. 수천만 원짜리 A100 GPU를 마음껏 쓸 수 있다면 좋겠지만, 현실은 제한된 VRAM(24GB, 48GB) 안에서 최대한의 성능을 뽑아내야 한다.</p> <p>다행히 Hugging Face 생태계는 <strong>모델의 크기를 줄이는(Quantization)</strong> 기술과 <strong>연산 속도를 높이는(Acceleration)</strong> 기술을 매우 쉽게 사용할 수 있도록 통합해 두었다.</p> <p>이번 시리즈의 마지막 포스트에서는 엔지니어링 관점에서 반드시 적용해야 할 3가지 최적화 기법을 다룬다.</p> <hr/> <h2 id="1-quantization-4-bit의-마법-feat-bitsandbytes">1. Quantization: 4-bit의 마법 (feat. BitsAndBytes)</h2> <p>양자화(Quantization)는 32비트(float32)나 16비트(float16)로 표현된 가중치를 8비트(int8) 또는 4비트(nf4)로 압축하여 표현하는 기술이다. 놀라운 점은 4비트로 줄여도 모델의 성능 저하가 미미하다는 것이다.</p> <h3 id="-bad-practice-무조건-원본-로드">🔴 Bad Practice: 무조건 원본 로드</h3> <p>70B 모델을 fp16으로 로드하면 약 140GB의 VRAM이 필요하다. 이는 A100(80GB) 2장을 써야 겨우 올라가는 크기다.</p> <h3 id="-best-practice-bitsandbytesconfig-4-bit-loading">🟢 Best Practice: <code class="language-plaintext highlighter-rouge">BitsAndBytesConfig</code> (4-bit Loading)</h3> <p><code class="language-plaintext highlighter-rouge">bitsandbytes</code> 라이브러리를 통해 모델을 4비트로 로드하면 용량이 약 1/4로 줄어든다. 이를 통해 <strong>Llama-2-70B 모델을 48GB GPU(A6000, L40) 한 장</strong>에 올릴 수 있다.</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">BitsAndBytesConfig</span>
+
+<span class="c1"># 4bit 양자화 설정 (QLoRA 학습 시 필수)
+</span><span class="n">bnb_config</span> <span class="o">=</span> <span class="nc">BitsAndBytesConfig</span><span class="p">(</span>
+    <span class="n">load_in_4bit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">bnb_4bit_quant_type</span><span class="o">=</span><span class="sh">"</span><span class="s">nf4</span><span class="sh">"</span><span class="p">,</span>       <span class="c1"># 정규분포에 최적화된 Normal Float 4
+</span>    <span class="n">bnb_4bit_compute_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,</span> <span class="c1"># 연산은 bf16으로 수행 (속도/성능 보존)
+</span>    <span class="n">bnb_4bit_use_double_quant</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="c1"># 양자화 상수를 한 번 더 양자화 (메모리 추가 절약)
+</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span>
+    <span class="sh">"</span><span class="s">meta-llama/Llama-2-70b-hf</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">quantization_config</span><span class="o">=</span><span class="n">bnb_config</span><span class="p">,</span>
+    <span class="n">device_map</span><span class="o">=</span><span class="sh">"</span><span class="s">auto</span><span class="sh">"</span>
+<span class="p">)</span>
+</code></pre></div></div> <p>이 설정은 파인튜닝 기법인 <strong>QLoRA(Quantized LoRA)</strong>의 기반이 되며, 소비자용 GPU(RTX 3090/4090)에서도 LLM 학습을 가능하게 만든 일등공신이다.</p> <hr/> <h2 id="2-flash-attention-2-메모리-대역폭-병목-해소">2. Flash Attention 2: 메모리 대역폭 병목 해소</h2> <p>Transformer 구조의 핵심인 Attention 메커니즘은 입력 시퀀스 길이($N$)의 제곱($N^2$)에 비례하여 연산량과 메모리 사용량이 증가한다. 문장이 길어질수록 급격히 느려지는 이유다.</p> <p><strong>Flash Attention</strong>은 GPU 메모리(HBM) 접근 횟수를 획기적으로 줄여(IO-Aware), 긴 문맥 처리 속도를 2배 이상 빠르게 만든다.</p> <h3 id="적용-방법">적용 방법</h3> <p>복잡한 구현 없이 <code class="language-plaintext highlighter-rouge">use_flash_attention_2=True</code> 옵션만 켜면 된다. (단, Ampere 아키텍처 이상의 GPU 필요: A100, A10, RTX 30/40 시리즈)</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span>
+    <span class="sh">"</span><span class="s">meta-llama/Llama-2-7b-chat-hf</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,</span> 
+    <span class="n">attn_implementation</span><span class="o">=</span><span class="sh">"</span><span class="s">flash_attention_2</span><span class="sh">"</span> <span class="c1"># 핵심 옵션
+</span><span class="p">)</span>
+</code></pre></div></div> <blockquote> <p><strong>Benchmark:</strong> 입력 토큰이 4096 이상일 때, 일반 Attention 대비 <strong>2~3배의 속도 향상</strong>과 메모리 절약 효과를 볼 수 있다. RAG(검색 증강 생성)처럼 긴 문서를 다루는 서비스에서는 필수 옵션이다.</p> </blockquote> <hr/> <h2 id="3-kv-cache-했던-계산-또-하지-않기">3. KV Cache: 했던 계산 또 하지 않기</h2> <p>LLM은 다음 토큰을 예측할 때, 이전의 모든 토큰 정보를 다시 참조한다. 매번 처음부터 다시 계산하는 것은 엄청난 낭비다. <strong>Key-Value (KV) Cache</strong>는 이전 토큰들의 연산 결과(Key, Value)를 메모리에 저장해두고 재사용하는 기술이다.</p> <h3 id="-best-practice-use_cachetrue">🟢 Best Practice: <code class="language-plaintext highlighter-rouge">use_cache=True</code></h3> <p>대부분의 모델에서 기본값은 <code class="language-plaintext highlighter-rouge">True</code>이지만, 학습(Training) 시에는 메모리 절약을 위해 <code class="language-plaintext highlighter-rouge">False</code>로 끄는 경우가 많다. 따라서 <strong>추론(Inference) 단계에서는 반드시 켜져 있는지 확인</strong>해야 한다.</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. 모델 설정에서 확인
+</span><span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">use_cache</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c1"># 2. generation 호출 시 명시
+</span><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="p">,</span>
+    <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">use_cache</span><span class="o">=</span><span class="bp">True</span> 
+<span class="p">)</span>
+</code></pre></div></div> <p>KV Cache를 끄면 문장이 길어질수록 생성 속도가 선형적으로 느려지지만, 켜면 문장 길이에 상관없이 일정한 속도(O(1) per token)를 유지할 수 있다.</p> <hr/> <h2 id="series-conclusion-llm-엔지니어링의-여정">Series Conclusion: LLM 엔지니어링의 여정</h2> <p>총 5편에 걸쳐 <code class="language-plaintext highlighter-rouge">transformers</code> 라이브러리를 활용한 LLM 엔지니어링 핵심 기술을 살펴보았다.</p> <ol> <li><strong>Tokenizer:</strong> Rust 기반 가속과 Dynamic Padding으로 입력 파이프라인 최적화.</li> <li><strong>Model Loading:</strong> <code class="language-plaintext highlighter-rouge">device_map</code>과 <code class="language-plaintext highlighter-rouge">fp16</code>으로 OOM 없는 로딩.</li> <li><strong>Inference:</strong> <code class="language-plaintext highlighter-rouge">GenerationConfig</code>와 <code class="language-plaintext highlighter-rouge">Streamer</code>로 상용 수준의 서비스 구현.</li> <li><strong>Training:</strong> <code class="language-plaintext highlighter-rouge">Trainer</code>와 <code class="language-plaintext highlighter-rouge">Callback</code>으로 안정적인 학습 파이프라인 구축.</li> <li><strong>Optimization:</strong> <code class="language-plaintext highlighter-rouge">Quantization</code>과 <code class="language-plaintext highlighter-rouge">Flash Attention</code>으로 극한의 효율성 달성.</li> </ol> <p>이 시리즈가 단순한 코드 복사-붙여넣기를 넘어, <strong>“왜 이렇게 설정해야 하는가?”</strong>에 대한 엔지니어링적 통찰을 제공했기를 바란다. 이제 여러분의 데이터를 모델에 태워볼 차례다. Happy Engineering!</p>]]></content><author><name></name></author><category term="engineering"/><category term="python"/><category term="transformers"/><category term="quantization"/><category term="optimization"/><category term="cuda"/><summary type="html"><![CDATA[BitsAndBytes를 활용한 4bit 양자화(QLoRA) 원리와 Flash Attention 2 적용법. KV Cache의 중요성까지, 모델 성능을 극한으로 끌어올리는 최적화 기법 총정리.]]></summary></entry><entry><title type="html">[Python] collections 모듈 심층 분석</title><link href="https://ssolllll.github.io/blog/2025/python-package-collections/" rel="alternate" type="text/html" title="[Python] collections 모듈 심층 분석"/><published>2025-12-05T10:00:00+00:00</published><updated>2025-12-05T10:00:00+00:00</updated><id>https://ssolllll.github.io/blog/2025/python-package-collections</id><content type="html" xml:base="https://ssolllll.github.io/blog/2025/python-package-collections/"><![CDATA[<p>LLM Model 서비스를 개발하다 보면 모델 자체의 추론 속도뿐만 아니라, 전후처리 파이프라인의 효율성이 전체 시스템 성능을 좌우하는 경우를 자주 마주합니다.ㄴ</p> <p>특히 Python의 기본 자료구조(<code class="language-plaintext highlighter-rouge">list</code>, <code class="language-plaintext highlighter-rouge">dict</code>)는 범용적이지만, <strong>실시간 스트리밍 처리가 필요한 Chat Completions API</strong>나 <strong>수십만 개의 Vector Search 결과를 다루는 RAG(Retrieval-Augmented Generation)</strong> 과정에서는 미세한 성능 저하와 불필요한 메모리 점유의 원인이 됩니다.</p> <p><code class="language-plaintext highlighter-rouge">collections</code> 모듈을 단순한 편의 도구가 아닌, <strong>엔지니어링 관점의 최적화 도구</strong>로 재해석하고 LLM 실무 적용 사례를 기록합니다.</p> <hr/> <h2 id="1-deque-context-window-관리와-streaming-buffer">1. deque: Context Window 관리와 Streaming Buffer</h2> <p>LLM은 입력 가능한 토큰 길이에 물리적 한계가 있다. 챗봇 구현 시 가장 오래된 대화를 삭제하고 새 대화를 넣는 <strong>Sliding Window</strong> 전략이 필수적이다. 또한, SSE(Server-Sent Events) 스트리밍 시 문장 단위 처리를 위한 버퍼링에도 큐 구조가 필요합니다.</p> <h3 id="-bad-practice-list-사용">🔴 Bad Practice: <code class="language-plaintext highlighter-rouge">list</code> 사용</h3> <p>Python의 <code class="language-plaintext highlighter-rouge">list</code>는 동적 배열(Dynamic Array)이다. <code class="language-plaintext highlighter-rouge">pop(0)</code> 연산은 첫 번째 요소를 제거한 뒤, 나머지 <strong>모든 요소의 인덱스를 한 칸씩 당겨오는(Shift)</strong> 작업을 수행합니다.</p> <ul> <li><strong>시간 복잡도:</strong> $O(N)$</li> <li><strong>문제점:</strong> 대화 턴(Turn)이 길어질수록, 동시 접속자가 늘어날수록 CPU 사이클을 낭비하며, GC(Garbage Collection) 압력을 높인다.</li> </ul> <h3 id="-best-practice-deque-circular-buffer">🟢 Best Practice: <code class="language-plaintext highlighter-rouge">deque</code> (Circular Buffer)</h3> <p><code class="language-plaintext highlighter-rouge">collections.deque</code>는 Linked List 기반의 양방향 큐다. 양 끝단에서의 삽입/삭제가 메모리 이동 없이 포인터 변경만으로 이루어진다.</p> <p><img src="/assets/img/deque_vs_list_memory.png" alt="Deque vs List Memory Structure"/></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">collections</span> <span class="kn">import</span> <span class="n">deque</span>
 
 <span class="k">class</span> <span class="nc">ContextManager</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">max_turns</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
@@ -223,16 +253,16 @@ Content 2
 <span class="cp">{%</span><span class="w"> </span><span class="nt">endtab</span><span class="w"> </span><span class="cp">%}</span>
 
 <span class="cp">{%</span><span class="w"> </span><span class="nt">endtabs</span><span class="w"> </span><span class="cp">%}</span>
-</code></pre></div></div> <p>With this you can generate visualizations like:</p> <ul id="log" class="tab" data-tab="e1cae58d-307a-4a43-8233-72f4715383be" data-name="log"> <li class="active" id="log-php"> <a href="#">php </a> </li> <li id="log-js"> <a href="#">js </a> </li> <li id="log-ruby"> <a href="#">ruby </a> </li> </ul> <ul class="tab-content" id="e1cae58d-307a-4a43-8233-72f4715383be" data-name="log"> <li class="active"> <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
+</code></pre></div></div> <p>With this you can generate visualizations like:</p> <ul id="log" class="tab" data-tab="0cbb74b1-ecbb-4ad1-8aec-0c793a913631" data-name="log"> <li class="active" id="log-php"> <a href="#">php </a> </li> <li id="log-js"> <a href="#">js </a> </li> <li id="log-ruby"> <a href="#">ruby </a> </li> </ul> <ul class="tab-content" id="0cbb74b1-ecbb-4ad1-8aec-0c793a913631" data-name="log"> <li class="active"> <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">var_dump</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">);</span>
 </code></pre></div></div> </li> <li> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">);</span>
 </code></pre></div></div> </li> <li> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">pputs</span> <span class="dl">'</span><span class="s1">hello</span><span class="dl">'</span>
-</code></pre></div></div> </li> </ul> <h2 id="another-example">Another example</h2> <ul id="data-struct" class="tab" data-tab="c415d2cc-89c9-4a8e-88f3-3ee881e612a8" data-name="data-struct"> <li class="active" id="data-struct-yaml"> <a href="#">yaml </a> </li> <li id="data-struct-json"> <a href="#">json </a> </li> </ul> <ul class="tab-content" id="c415d2cc-89c9-4a8e-88f3-3ee881e612a8" data-name="data-struct"> <li class="active"> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
+</code></pre></div></div> </li> </ul> <h2 id="another-example">Another example</h2> <ul id="data-struct" class="tab" data-tab="8fba19a6-d51c-4d64-be54-683e94ad7db4" data-name="data-struct"> <li class="active" id="data-struct-yaml"> <a href="#">yaml </a> </li> <li id="data-struct-json"> <a href="#">json </a> </li> </ul> <ul class="tab-content" id="8fba19a6-d51c-4d64-be54-683e94ad7db4" data-name="data-struct"> <li class="active"> <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hello</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s2">"</span><span class="s">whatsup"</span>
   <span class="pi">-</span> <span class="s2">"</span><span class="s">hi"</span>
 </code></pre></div></div> </li> <li> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"hello"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"whatsup"</span><span class="p">,</span><span class="w"> </span><span class="s2">"hi"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div></div> </li> </ul> <h2 id="tabs-for-something-else">Tabs for something else</h2> <ul id="something-else" class="tab" data-tab="2e697485-495f-4811-9931-bc1aae5bc0a9" data-name="something-else"> <li class="active" id="something-else-text"> <a href="#">text </a> </li> <li id="something-else-quote"> <a href="#">quote </a> </li> <li id="something-else-list"> <a href="#">list </a> </li> </ul> <ul class="tab-content" id="2e697485-495f-4811-9931-bc1aae5bc0a9" data-name="something-else"> <li class="active"> <p>Regular text</p> </li> <li> <blockquote> <p>A quote</p> </blockquote> </li> <li> <p>Hipster list</p> <ul> <li>brunch</li> <li>fixie</li> <li>raybans</li> <li>messenger bag</li> </ul> </li> </ul>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included tabs in a post could look like]]></summary></entry><entry><title type="html">a post with typograms</title><link href="https://ssolllll.github.io/blog/2024/typograms/" rel="alternate" type="text/html" title="a post with typograms"/><published>2024-04-29T23:36:10+00:00</published><updated>2024-04-29T23:36:10+00:00</updated><id>https://ssolllll.github.io/blog/2024/typograms</id><content type="html" xml:base="https://ssolllll.github.io/blog/2024/typograms/"><![CDATA[<p>This is an example post with some <a href="https://github.com/google/typograms/">typograms</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">typograms
+</span></code></pre></div></div> </li> </ul> <h2 id="tabs-for-something-else">Tabs for something else</h2> <ul id="something-else" class="tab" data-tab="84ea6635-6d62-4d1d-8ca5-f22bb3a0ca74" data-name="something-else"> <li class="active" id="something-else-text"> <a href="#">text </a> </li> <li id="something-else-quote"> <a href="#">quote </a> </li> <li id="something-else-list"> <a href="#">list </a> </li> </ul> <ul class="tab-content" id="84ea6635-6d62-4d1d-8ca5-f22bb3a0ca74" data-name="something-else"> <li class="active"> <p>Regular text</p> </li> <li> <blockquote> <p>A quote</p> </blockquote> </li> <li> <p>Hipster list</p> <ul> <li>brunch</li> <li>fixie</li> <li>raybans</li> <li>messenger bag</li> </ul> </li> </ul>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included tabs in a post could look like]]></summary></entry><entry><title type="html">a post with typograms</title><link href="https://ssolllll.github.io/blog/2024/typograms/" rel="alternate" type="text/html" title="a post with typograms"/><published>2024-04-29T23:36:10+00:00</published><updated>2024-04-29T23:36:10+00:00</updated><id>https://ssolllll.github.io/blog/2024/typograms</id><content type="html" xml:base="https://ssolllll.github.io/blog/2024/typograms/"><![CDATA[<p>This is an example post with some <a href="https://github.com/google/typograms/">typograms</a> code.</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">typograms
 </span><span class="sb">+----+
 |    |---&gt; My first diagram!
 +----+</span>
@@ -338,448 +368,4 @@ Content 2
 \ENDPROCEDURE
 \end{algorithmic}
 \end{algorithm}
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included pseudo code could look like]]></summary></entry><entry><title type="html">a post with code diff</title><link href="https://ssolllll.github.io/blog/2024/code-diff/" rel="alternate" type="text/html" title="a post with code diff"/><published>2024-01-27T19:22:00+00:00</published><updated>2024-01-27T19:22:00+00:00</updated><id>https://ssolllll.github.io/blog/2024/code-diff</id><content type="html" xml:base="https://ssolllll.github.io/blog/2024/code-diff/"><![CDATA[<p>You can display diff code by using the regular markdown syntax:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff
-</span><span class="gh">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
-</span><span class="gd">--- a/sample.js
-</span><span class="gi">+++ b/sample.js
-</span><span class="p">@@ -1 +1 @@</span>
-<span class="gd">-console.log("Hello World!")
-</span><span class="gi">+console.log("Hello from Diff2Html!")</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>Which generates:</p> <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
-</span><span class="gd">--- a/sample.js
-</span><span class="gi">+++ b/sample.js
-</span><span class="p">@@ -1 +1 @@</span>
-<span class="gd">-console.log("Hello World!")
-</span><span class="gi">+console.log("Hello from Diff2Html!")
-</span></code></pre></div></div> <p>But this is difficult to read, specially if you have a large diff. You can use <a href="https://diff2html.xyz/">diff2html</a> to display a more readable version of the diff. For this, just use <code class="language-plaintext highlighter-rouge">diff2html</code> instead of <code class="language-plaintext highlighter-rouge">diff</code> for the code block language:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff2html
-</span><span class="sb">diff --git a/sample.js b/sample.js
-index 0000001..0ddf2ba
---- a/sample.js
-+++ b/sample.js
-@@ -1 +1 @@
--console.log("Hello World!")
-+console.log("Hello from Diff2Html!")</span>
-<span class="p">```</span>
-</code></pre></div></div> <p>If we use a longer example, for example <a href="https://github.com/rtfpessoa/diff2html/commit/c2c253d3e3f8b8b267f551e659f72b44ca2ac927">this commit from diff2html</a>, it will generate the following output:</p> <pre><code class="language-diff2html">From 2aaae31cc2a37bfff83430c2c914b140bee59b6a Mon Sep 17 00:00:00 2001
-From: Rodrigo Fernandes &lt;rtfrodrigo@gmail.com&gt;
-Date: Sun, 9 Oct 2016 16:41:54 +0100
-Subject: [PATCH 1/2] Initial template override support
-
----
- scripts/hulk.js                    |  4 ++--
- src/diff2html.js                   |  3 +--
- src/file-list-printer.js           | 11 ++++++++---
- src/hoganjs-utils.js               | 29 +++++++++++++++++------------
- src/html-printer.js                |  6 ++++++
- src/line-by-line-printer.js        |  6 +++++-
- src/side-by-side-printer.js        |  6 +++++-
- test/file-list-printer-tests.js    |  2 +-
- test/hogan-cache-tests.js          | 18 +++++++++++++++---
- test/line-by-line-tests.js         |  3 +--
- test/side-by-side-printer-tests.js |  3 +--
- 11 files changed, 62 insertions(+), 29 deletions(-)
-
-diff --git a/scripts/hulk.js b/scripts/hulk.js
-index 5a793c18..a4b1a4d5 100755
---- a/scripts/hulk.js
-+++ b/scripts/hulk.js
-@@ -173,11 +173,11 @@ function namespace(name) {
- // write a template foreach file that matches template extension
- templates = extractFiles(options.argv.remain)
-   .map(function(file) {
--    var openedFile = fs.readFileSync(file, 'utf-8');
-+    var openedFile = fs.readFileSync(file, 'utf-8').trim();
-     var name;
-     if (!openedFile) return;
-     name = namespace(path.basename(file).replace(/\..*$/, ''));
--    openedFile = removeByteOrderMark(openedFile.trim());
-+    openedFile = removeByteOrderMark(openedFile);
-     openedFile = wrap(file, name, openedFile);
-     if (!options.outputdir) return openedFile;
-     fs.writeFileSync(path.join(options.outputdir, name + '.js')
-diff --git a/src/diff2html.js b/src/diff2html.js
-index 21b0119e..64e138f5 100644
---- a/src/diff2html.js
-+++ b/src/diff2html.js
-@@ -7,7 +7,6 @@
-
- (function() {
-   var diffParser = require('./diff-parser.js').DiffParser;
--  var fileLister = require('./file-list-printer.js').FileListPrinter;
-   var htmlPrinter = require('./html-printer.js').HtmlPrinter;
-
-   function Diff2Html() {
-@@ -43,7 +42,7 @@
-
-     var fileList = '';
-     if (configOrEmpty.showFiles === true) {
--      fileList = fileLister.generateFileList(diffJson, configOrEmpty);
-+      fileList = htmlPrinter.generateFileListSummary(diffJson, configOrEmpty);
-     }
-
-     var diffOutput = '';
-diff --git a/src/file-list-printer.js b/src/file-list-printer.js
-index e408d9b2..1e0a2c61 100644
---- a/src/file-list-printer.js
-+++ b/src/file-list-printer.js
-@@ -8,11 +8,16 @@
- (function() {
-   var printerUtils = require('./printer-utils.js').PrinterUtils;
-
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var baseTemplatesPath = 'file-summary';
-   var iconsBaseTemplatesPath = 'icon';
-
--  function FileListPrinter() {
-+  function FileListPrinter(config) {
-+    this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
-
-   FileListPrinter.prototype.generateFileList = function(diffFiles) {
-@@ -38,5 +43,5 @@
-     });
-   };
-
--  module.exports.FileListPrinter = new FileListPrinter();
-+  module.exports.FileListPrinter = FileListPrinter;
- })();
-diff --git a/src/hoganjs-utils.js b/src/hoganjs-utils.js
-index 9949e5fa..0dda08d7 100644
---- a/src/hoganjs-utils.js
-+++ b/src/hoganjs-utils.js
-@@ -8,18 +8,19 @@
- (function() {
-   var fs = require('fs');
-   var path = require('path');
--
-   var hogan = require('hogan.js');
-
-   var hoganTemplates = require('./templates/diff2html-templates.js');
-
--  var templatesPath = path.resolve(__dirname, 'templates');
-+  var extraTemplates;
-
--  function HoganJsUtils() {
-+  function HoganJsUtils(configuration) {
-+    this.config = configuration || {};
-+    extraTemplates = this.config.templates || {};
-   }
-
--  HoganJsUtils.prototype.render = function(namespace, view, params, configuration) {
--    var template = this.template(namespace, view, configuration);
-+  HoganJsUtils.prototype.render = function(namespace, view, params) {
-+    var template = this.template(namespace, view);
-     if (template) {
-       return template.render(params);
-     }
-@@ -27,17 +28,16 @@
-     return null;
-   };
-
--  HoganJsUtils.prototype.template = function(namespace, view, configuration) {
--    var config = configuration || {};
-+  HoganJsUtils.prototype.template = function(namespace, view) {
-     var templateKey = this._templateKey(namespace, view);
-
--    return this._getTemplate(templateKey, config);
-+    return this._getTemplate(templateKey);
-   };
-
--  HoganJsUtils.prototype._getTemplate = function(templateKey, config) {
-+  HoganJsUtils.prototype._getTemplate = function(templateKey) {
-     var template;
-
--    if (!config.noCache) {
-+    if (!this.config.noCache) {
-       template = this._readFromCache(templateKey);
-     }
-
-@@ -53,6 +53,7 @@
-
-     try {
-       if (fs.readFileSync) {
-+        var templatesPath = path.resolve(__dirname, 'templates');
-         var templatePath = path.join(templatesPath, templateKey);
-         var templateContent = fs.readFileSync(templatePath + '.mustache', 'utf8');
-         template = hogan.compile(templateContent);
-@@ -66,12 +67,16 @@
-   };
-
-   HoganJsUtils.prototype._readFromCache = function(templateKey) {
--    return hoganTemplates[templateKey];
-+    return extraTemplates[templateKey] || hoganTemplates[templateKey];
-   };
-
-   HoganJsUtils.prototype._templateKey = function(namespace, view) {
-     return namespace + '-' + view;
-   };
-
--  module.exports.HoganJsUtils = new HoganJsUtils();
-+  HoganJsUtils.prototype.compile = function(templateStr) {
-+    return hogan.compile(templateStr);
-+  };
-+
-+  module.exports.HoganJsUtils = HoganJsUtils;
- })();
-diff --git a/src/html-printer.js b/src/html-printer.js
-index 585d5b66..13f83047 100644
---- a/src/html-printer.js
-+++ b/src/html-printer.js
-@@ -8,6 +8,7 @@
- (function() {
-   var LineByLinePrinter = require('./line-by-line-printer.js').LineByLinePrinter;
-   var SideBySidePrinter = require('./side-by-side-printer.js').SideBySidePrinter;
-+  var FileListPrinter = require('./file-list-printer.js').FileListPrinter;
-
-   function HtmlPrinter() {
-   }
-@@ -22,5 +23,10 @@
-     return sideBySidePrinter.generateSideBySideJsonHtml(diffFiles);
-   };
-
-+  HtmlPrinter.prototype.generateFileListSummary = function(diffJson, config) {
-+    var fileListPrinter = new FileListPrinter(config);
-+    return fileListPrinter.generateFileList(diffJson);
-+  };
-+
-   module.exports.HtmlPrinter = new HtmlPrinter();
- })();
-diff --git a/src/line-by-line-printer.js b/src/line-by-line-printer.js
-index b07eb53c..d230bedd 100644
---- a/src/line-by-line-printer.js
-+++ b/src/line-by-line-printer.js
-@@ -11,7 +11,8 @@
-   var utils = require('./utils.js').Utils;
-   var Rematch = require('./rematch.js').Rematch;
-
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var genericTemplatesPath = 'generic';
-   var baseTemplatesPath = 'line-by-line';
-   var iconsBaseTemplatesPath = 'icon';
-@@ -19,6 +20,9 @@
-
-   function LineByLinePrinter(config) {
-     this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
-
-   LineByLinePrinter.prototype.makeFileDiffHtml = function(file, diffs) {
-diff --git a/src/side-by-side-printer.js b/src/side-by-side-printer.js
-index bbf1dc8d..5e3033b3 100644
---- a/src/side-by-side-printer.js
-+++ b/src/side-by-side-printer.js
-@@ -11,7 +11,8 @@
-   var utils = require('./utils.js').Utils;
-   var Rematch = require('./rematch.js').Rematch;
-
--  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+  var hoganUtils;
-+
-   var genericTemplatesPath = 'generic';
-   var baseTemplatesPath = 'side-by-side';
-   var iconsBaseTemplatesPath = 'icon';
-@@ -26,6 +27,9 @@
-
-   function SideBySidePrinter(config) {
-     this.config = config;
-+
-+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils;
-+    hoganUtils = new HoganJsUtils(config);
-   }
-
-   SideBySidePrinter.prototype.makeDiffHtml = function(file, diffs) {
-diff --git a/test/file-list-printer-tests.js b/test/file-list-printer-tests.js
-index a502a46f..60ea3208 100644
---- a/test/file-list-printer-tests.js
-+++ b/test/file-list-printer-tests.js
-@@ -1,6 +1,6 @@
- var assert = require('assert');
-
--var fileListPrinter = require('../src/file-list-printer.js').FileListPrinter;
-+var fileListPrinter = new (require('../src/file-list-printer.js').FileListPrinter)();
-
- describe('FileListPrinter', function() {
-   describe('generateFileList', function() {
-diff --git a/test/hogan-cache-tests.js b/test/hogan-cache-tests.js
-index 190bf6f8..3bb754ac 100644
---- a/test/hogan-cache-tests.js
-+++ b/test/hogan-cache-tests.js
-@@ -1,6 +1,6 @@
- var assert = require('assert');
-
--var HoganJsUtils = require('../src/hoganjs-utils.js').HoganJsUtils;
-+var HoganJsUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)();
- var diffParser = require('../src/diff-parser.js').DiffParser;
-
- describe('HoganJsUtils', function() {
-@@ -21,16 +21,28 @@ describe('HoganJsUtils', function() {
-       });
-       assert.equal(emptyDiffHtml, result);
-     });
-+
-     it('should render view without cache', function() {
-       var result = HoganJsUtils.render('generic', 'empty-diff', {
-         contentClass: 'd2h-code-line',
-         diffParser: diffParser
-       }, {noCache: true});
--      assert.equal(emptyDiffHtml + '\n', result);
-+      assert.equal(emptyDiffHtml, result);
-     });
-+
-     it('should return null if template is missing', function() {
--      var result = HoganJsUtils.render('generic', 'missing-template', {}, {noCache: true});
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)({noCache: true});
-+      var result = hoganUtils.render('generic', 'missing-template', {});
-       assert.equal(null, result);
-     });
-+
-+    it('should allow templates to be overridden', function() {
-+      var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-+
-+      var config = {templates: {'generic-empty-diff': emptyDiffTemplate}};
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-   });
- });
-diff --git a/test/line-by-line-tests.js b/test/line-by-line-tests.js
-index 1cd92073..8869b3df 100644
---- a/test/line-by-line-tests.js
-+++ b/test/line-by-line-tests.js
-@@ -14,7 +14,7 @@ describe('LineByLinePrinter', function() {
-         '            File without changes\n' +
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
--        '&lt;/tr&gt;\n';
-+        '&lt;/tr&gt;';
-
-       assert.equal(expected, fileHtml);
-     });
-@@ -422,7 +422,6 @@ describe('LineByLinePrinter', function() {
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
-         '&lt;/tr&gt;\n' +
--        '\n' +
-         '                &lt;/tbody&gt;\n' +
-         '            &lt;/table&gt;\n' +
-         '        &lt;/div&gt;\n' +
-diff --git a/test/side-by-side-printer-tests.js b/test/side-by-side-printer-tests.js
-index 76625f8e..771daaa5 100644
---- a/test/side-by-side-printer-tests.js
-+++ b/test/side-by-side-printer-tests.js
-@@ -14,7 +14,7 @@ describe('SideBySidePrinter', function() {
-         '            File without changes\n' +
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
--        '&lt;/tr&gt;\n';
-+        '&lt;/tr&gt;';
-
-       assert.equal(expectedRight, fileHtml.right);
-       assert.equal(expectedLeft, fileHtml.left);
-@@ -324,7 +324,6 @@ describe('SideBySidePrinter', function() {
-         '        &lt;/div&gt;\n' +
-         '    &lt;/td&gt;\n' +
-         '&lt;/tr&gt;\n' +
--        '\n' +
-         '                    &lt;/tbody&gt;\n' +
-         '                &lt;/table&gt;\n' +
-         '            &lt;/div&gt;\n' +
-
-From f3cadb96677d0eb82fc2752dc3ffbf35ca9b5bdb Mon Sep 17 00:00:00 2001
-From: Rodrigo Fernandes &lt;rtfrodrigo@gmail.com&gt;
-Date: Sat, 15 Oct 2016 13:21:22 +0100
-Subject: [PATCH 2/2] Allow uncompiled templates
-
----
- README.md                 |  3 +++
- src/hoganjs-utils.js      |  7 +++++++
- test/hogan-cache-tests.js | 24 +++++++++++++++++++++++-
- 3 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/README.md b/README.md
-index 132c8a28..46909f25 100644
---- a/README.md
-+++ b/README.md
-@@ -98,6 +98,9 @@ The HTML output accepts a Javascript object with configuration. Possible options
-   - `synchronisedScroll`: scroll both panes in side-by-side mode: `true` or `false`, default is `false`
-   - `matchWordsThreshold`: similarity threshold for word matching, default is 0.25
-   - `matchingMaxComparisons`: perform at most this much comparisons for line matching a block of changes, default is `2500`
-+  - `templates`: object with previously compiled templates to replace parts of the html
-+  - `rawTemplates`: object with raw not compiled templates to replace parts of the html
-+  &gt; For more information regarding the possible templates look into [src/templates](https://github.com/rtfpessoa/diff2html/tree/master/src/templates)
-
- ## Diff2HtmlUI Helper
-
-diff --git a/src/hoganjs-utils.js b/src/hoganjs-utils.js
-index 0dda08d7..b2e9c275 100644
---- a/src/hoganjs-utils.js
-+++ b/src/hoganjs-utils.js
-@@ -17,6 +17,13 @@
-   function HoganJsUtils(configuration) {
-     this.config = configuration || {};
-     extraTemplates = this.config.templates || {};
-+
-+    var rawTemplates = this.config.rawTemplates || {};
-+    for (var templateName in rawTemplates) {
-+      if (rawTemplates.hasOwnProperty(templateName)) {
-+        if (!extraTemplates[templateName]) extraTemplates[templateName] = this.compile(rawTemplates[templateName]);
-+      }
-+    }
-   }
-
-   HoganJsUtils.prototype.render = function(namespace, view, params) {
-diff --git a/test/hogan-cache-tests.js b/test/hogan-cache-tests.js
-index 3bb754ac..a34839c0 100644
---- a/test/hogan-cache-tests.js
-+++ b/test/hogan-cache-tests.js
-@@ -36,7 +36,7 @@ describe('HoganJsUtils', function() {
-       assert.equal(null, result);
-     });
-
--    it('should allow templates to be overridden', function() {
-+    it('should allow templates to be overridden with compiled templates', function() {
-       var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-
-       var config = {templates: {'generic-empty-diff': emptyDiffTemplate}};
-@@ -44,5 +44,27 @@ describe('HoganJsUtils', function() {
-       var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-       assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-     });
-+
-+    it('should allow templates to be overridden with uncompiled templates', function() {
-+      var emptyDiffTemplate = '&lt;p&gt;&lt;/p&gt;';
-+
-+      var config = {rawTemplates: {'generic-empty-diff': emptyDiffTemplate}};
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-+
-+    it('should allow templates to be overridden giving priority to compiled templates', function() {
-+      var emptyDiffTemplate = HoganJsUtils.compile('&lt;p&gt;&lt;/p&gt;');
-+      var emptyDiffTemplateUncompiled = '&lt;p&gt;Not used!&lt;/p&gt;';
-+
-+      var config = {
-+        templates: {'generic-empty-diff': emptyDiffTemplate},
-+        rawTemplates: {'generic-empty-diff': emptyDiffTemplateUncompiled}
-+      };
-+      var hoganUtils = new (require('../src/hoganjs-utils.js').HoganJsUtils)(config);
-+      var result = hoganUtils.render('generic', 'empty-diff', {myName: 'Rodrigo Fernandes'});
-+      assert.equal('&lt;p&gt;Rodrigo Fernandes&lt;/p&gt;', result);
-+    });
-   });
- });
-</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is how you can display code diffs]]></summary></entry></feed>
+</code></pre>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="code"/><summary type="html"><![CDATA[this is what included pseudo code could look like]]></summary></entry></feed>

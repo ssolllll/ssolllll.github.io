@@ -48,6 +48,17 @@ ninja.data = [{
             window.location.href = "/blog/2025/transformers-optimization/";
           
         },
+      },{id: "post-transformers-llm-경량화와-가속-quantization부터-flash-attention까지",
+        
+          title: "[Transformers] LLM 경량화와 가속: Quantization부터 Flash Attention까지",
+        
+        description: "BitsAndBytes를 활용한 4bit 양자화(QLoRA) 원리와 Flash Attention 2 적용법. KV Cache의 중요성까지, 모델 성능을 극한으로 끌어올리는 최적화 기법 총정리.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/bitsandbytes/";
+          
+        },
       },{id: "post-python-collections-모듈-심층-분석",
         
           title: "[Python] collections 모듈 심층 분석",
