@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-transformers-llm-경량화와-가속-quantization부터-flash-attention까지",
+        },{id: "post-transformers-파이토치-루프-탈출-trainer-api-200-활용-가이드",
+        
+          title: "[Transformers] 파이토치 루프 탈출: Trainer API 200% 활용 가이드",
+        
+        description: "Raw PyTorch Loop 대신 Trainer를 써야 하는 이유. Custom Callback을 이용한 실시간 생성 평가와 효율적인 체크포인트 관리 전략.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/transformers-api/";
+          
+        },
+      },{id: "post-transformers-llm-경량화와-가속-quantization부터-flash-attention까지",
         
           title: "[Transformers] LLM 경량화와 가속: Quantization부터 Flash Attention까지",
         
@@ -57,6 +68,17 @@ ninja.data = [{
         handler: () => {
           
             window.location.href = "/blog/2025/transformers-optimization/";
+          
+        },
+      },{id: "post-transformers-llm-추론-제어-generationconfig와-실시간-streaming-구현",
+        
+          title: "[Transformers] LLM 추론 제어: GenerationConfig와 실시간 Streaming 구현",
+        
+        description: "하드코딩된 파라미터를 GenerationConfig로 분리하여 관리하는 MLOps 노하우와 TextIteratorStreamer를 활용한 ChatGPT 스타일의 실시간 토큰 스트리밍 구현법.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/generation_config_streaming/";
           
         },
       },{id: "post-python-collections-모듈-심층-분석",
