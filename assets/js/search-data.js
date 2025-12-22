@@ -37,7 +37,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-transformers-파이토치-루프-탈출-trainer-api-200-활용-가이드",
+        },{id: "post-mcp-1-ai-시대의-usb-c-model-context-protocol-완벽-이해",
+        
+          title: "[MCP] 1. AI 시대의 USB-C, Model Context Protocol 완벽 이해",
+        
+        description: "Anthropic이 공개한 MCP의 등장 배경과 아키텍처 분석. M x N 연결 문제를 M + N으로 해결하는 표준 인터페이스의 혁명.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/mcp-basic-concepts/";
+          
+        },
+      },{id: "post-llm-ops-ai-에이전트의-블랙박스를-여는-기술-h-e-a-r-감사-로그-전략",
+        
+          title: "[LLM Ops] AI 에이전트의 블랙박스를 여는 기술: H.E.A.R. 감사 로그 전략",
+        
+        description: "수백 건의 자율 실행을 수행하는 AI 에이전트. 단순 로그를 넘어 의도(Intent)와 맥락(Context)을 추적하는 감사 시스템 구축 가이드.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/llm-log/";
+          
+        },
+      },{id: "post-transformers-파이토치-루프-탈출-trainer-api-200-활용-가이드",
         
           title: "[Transformers] 파이토치 루프 탈출: Trainer API 200% 활용 가이드",
         
