@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-mcp-1-ai-시대의-usb-c-model-context-protocol-완벽-이해",
+        },{id: "post-mcp-2-python으로-5분-만에-나만의-mcp-server-만들기",
+        
+          title: "[MCP] 2. Python으로 5분 만에 나만의 MCP Server 만들기",
+        
+        description: "mcp-python-sdk를 활용하여 SQLite 데이터를 조회하는 커스텀 서버 구현 실습. Tools와 Resources의 개념을 코드로 이해하기.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/mcp-server-tutorial/";
+          
+        },
+      },{id: "post-mcp-1-ai-시대의-usb-c-model-context-protocol-완벽-이해",
         
           title: "[MCP] 1. AI 시대의 USB-C, Model Context Protocol 완벽 이해",
         
