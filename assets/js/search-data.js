@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-mcp-2-python으로-5분-만에-나만의-mcp-server-만들기",
+        },{id: "post-mcp-3-프로덕션을-위한-mcp-sse-디버깅-그리고-보안",
+        
+          title: "[MCP] 3. 프로덕션을 위한 MCP: SSE, 디버깅, 그리고 보안",
+        
+        description: "로컬 Stdio를 넘어 원격 서버 연결을 위한 SSE(Server-Sent Events) 구현, MCP Inspector를 활용한 디버깅, 그리고 보안 가이드라인.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/mcp-3-version/";
+          
+        },
+      },{id: "post-mcp-2-python으로-5분-만에-나만의-mcp-server-만들기",
         
           title: "[MCP] 2. Python으로 5분 만에 나만의 MCP Server 만들기",
         
