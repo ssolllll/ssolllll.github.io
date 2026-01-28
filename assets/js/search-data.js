@@ -213,9 +213,9 @@ ninja.data = [{
           description: "LLM과 Vector DB를 활용하여 사내 문서를 검색하는 시스템 구축",
           section: "Projects",handler: () => {
               window.location.href = "/projects/etners-1-chatbot/";
-            },},{id: "projects-aicc-ai-contact-center-고도화",
-          title: 'AICC (AI Contact Center) 고도화',
-          description: "Whisper STT 및 KV Caching 도입을 통한 음성 응답률 21.4% → 97.3% 개선",
+            },},{id: "projects-aicc-ai-contact-center-모델-고도화",
+          title: 'AICC (AI Contact Center) 모델 고도화',
+          description: "LLM 기반 파이프라인 전환을 통한 응답 성공률 21.4% → 97.3% 개선",
           section: "Projects",handler: () => {
               window.location.href = "/projects/etners-2-aicc/";
             },},{id: "projects-학자금-지원-서류-자동화-에이전트",
