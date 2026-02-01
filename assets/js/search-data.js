@@ -220,7 +220,7 @@ ninja.data = [{
               window.location.href = "/projects/etners-2-aicc/";
             },},{id: "projects-학자금-지원-서류-자동화-에이전트",
           title: '학자금 지원 서류 자동화 에이전트',
-          description: "GPT-Vision과 OCR을 활용한 비정형 문서 데이터 추출 및 검증 자동화",
+          description: "GPT-Vision과 MCP 기반의 글로벌 비정형 문서 추출 및 검증 자동화",
           section: "Projects",handler: () => {
               window.location.href = "/projects/etners-3-vision/";
             },},{
