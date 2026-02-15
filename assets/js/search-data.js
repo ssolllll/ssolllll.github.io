@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-mcp-3-프로덕션을-위한-mcp-sse-디버깅-그리고-보안",
+        },{id: "post-llm-기반-로깅-성능-최적화-f-string-vs-지연-포매팅",
+        
+          title: "LLM 기반 로깅 성능 최적화: f-string vs 지연 포매팅",
+        
+        description: "고성능 AI 시스템 구축을 위한 문자열 연산 시점 분석 및 최적화 전략",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/fstring&formating/";
+          
+        },
+      },{id: "post-mcp-3-프로덕션을-위한-mcp-sse-디버깅-그리고-보안",
         
           title: "[MCP] 3. 프로덕션을 위한 MCP: SSE, 디버깅, 그리고 보안",
         
