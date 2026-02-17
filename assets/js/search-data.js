@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-llm-기반-로깅-성능-최적화-f-string-vs-지연-포매팅",
+        },{id: "post-고성능-ai-서빙을-위한-로깅-아키텍처-동기-vs-비동기",
+        
+          title: "고성능 AI 서빙을 위한 로깅 아키텍처: 동기 vs 비동기",
+        
+        description: "I/O 병목 제거를 위한 비동기 로깅 파이프라인 구축 및 성능 벤치마크",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/async-or-not/";
+          
+        },
+      },{id: "post-llm-기반-로깅-성능-최적화-f-string-vs-지연-포매팅",
         
           title: "LLM 기반 로깅 성능 최적화: f-string vs 지연 포매팅",
         
