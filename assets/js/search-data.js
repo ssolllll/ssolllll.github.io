@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-고성능-ai-서빙을-위한-로깅-아키텍처-동기-vs-비동기",
+        },{id: "post-openclaw-오픈소스-브라우저-에이전트의-가능성",
+        
+          title: "OpenClaw: 오픈소스 브라우저 에이전트의 가능성",
+        
+        description: "Anthropic Computer Use를 넘어선 오픈소스 기반 웹 자동화 에이전트 구축기",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/open-claw/";
+          
+        },
+      },{id: "post-고성능-ai-서빙을-위한-로깅-아키텍처-동기-vs-비동기",
         
           title: "고성능 AI 서빙을 위한 로깅 아키텍처: 동기 vs 비동기",
         
