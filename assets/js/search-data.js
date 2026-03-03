@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "post-openclaw-오픈소스-브라우저-에이전트의-가능성",
+        },{id: "post-ai-에이전트-보안의-핵심-openclaw-gateway-아키텍처",
+        
+          title: "AI 에이전트 보안의 핵심: OpenClaw Gateway 아키텍처",
+        
+        description: "LLM API 키 노출 방지부터 속도 제한까지, 에이전트 서비스의 보안 강화 전략",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/openclaw-gateway-security/";
+          
+        },
+      },{id: "post-openclaw-오픈소스-브라우저-에이전트의-가능성",
         
           title: "OpenClaw: 오픈소스 브라우저 에이전트의 가능성",
         
