@@ -1,11 +1,11 @@
 ---
 layout: cv
 permalink: /cv/
-title: cv
-nav: false
-nav_order: 5
-cv_pdf: example_pdf.pdf # you can also use external links here
-description: This is a description of the page. You can modify it in '_pages/cv.md'. You can also change or remove the top pdf download button.
+title: CV
+nav: true
+nav_order: 3
+cv_pdf: 송한솔_포트폴리오.pdf
+description: 송한솔의 이력서 및 포트폴리오입니다. PDF 다운로드 버튼을 통해 포트폴리오를 확인하실 수 있습니다.
 toc:
   sidebar: left
 ---

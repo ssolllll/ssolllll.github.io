@@ -4,17 +4,14 @@
 
 title: blank # the website title (if blank, full name will be used instead)
 first_name: Hansol
-middle_name: 
+middle_name:
 last_name: Song
-contact_note: >
-  You can even add a little note about which of these is the best way to reach you.
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+  AI Engineer (LLM Engineer) 송한솔의 포트폴리오입니다. LLM 기반 서비스 기획·개발·운영 경험을 보유하고 있습니다.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-  Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
-keywords: jekyll, jekyll-theme, academic-website, portfolio-website # add your own keywords or leave empty
+keywords: AI Engineer, LLM Engineer, RAG, LangChain, LangGraph, NLP, Portfolio
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: ⚛️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
@@ -87,7 +84,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: llm-portfolio # blog_name will be displayed in your blog page
-blog_description: a simple whitespace theme for academics
+blog_description: AI / LLM 엔지니어링 관련 기술 블로그
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
@@ -264,8 +261,8 @@ display_categories: ["external-services"] # these categories will be displayed o
 # -----------------------------------------------------------------------------
 
 scholar:
-  last_name: [Einstein]
-  first_name: [Albert, A.]
+  last_name: [Song]
+  first_name: [Hansol]
 
   style: apa
   locale: en

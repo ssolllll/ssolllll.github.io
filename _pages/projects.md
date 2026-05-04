@@ -2,7 +2,7 @@
 layout: page
 title: projects
 permalink: /projects/
-description: A growing collection of your cool projects.
+description: LLM 기반 서비스 개발 경험을 중심으로 한 프로젝트 목록입니다.
 nav: true
 nav_order: 2
 display_categories: [Etners, Ctilab, Personal]

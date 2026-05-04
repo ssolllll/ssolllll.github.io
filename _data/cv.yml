@@ -1,97 +1,95 @@
-- title: General Information
+- title: 기본 정보
   type: map
   contents:
-    - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
-    - name: Languages
-      value: English, German
+    - name: 이름
+      value: 송한솔 (Song Hansol)
+    - name: 생년
+      value: 1994
+    - name: 위치
+      value: 서울 관악구 봉천동
+    - name: 언어
+      value: 한국어 (모국어), 영어
 
-- title: Education
+- title: 학력
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+    - title: 데이터사이언스학과 석사
+      institution: 국민대학교 일반대학원, 서울
+      year: 2020 - 2022
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
+        - "GPA: 4.31 / 4.5"
+        - "졸업논문: 언론 보도의 감정이 IPO 초기수익률에 미치는 영향에 대한 실증연구"
+    - title: 경영경제학부 경제학전공 학사
+      institution: 건국대학교 글로컬캠퍼스, 충북
+      year: 2014 - 2020
       description:
-        - Description 1.
-        - Description 2.
+        - "GPA: 3.57 / 4.5"
 
-- title: Experience
+- title: 경력
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: AI Engineer (Pro, CL1)
+      institution: (주)이트너스 | 기업부설연구소 · AX팀, 경기
+      year: 2024.06 - 현재
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+        - LLM 기반 사내 QnA 챗봇 설계·개발·운영 단독 수행 (2025.01~06)
+        - AICC LLM 파이프라인 전환 — 응답 성공률 21.4% → 97.3% 달성 (2025.05)
+        - 학자금 지원 서류 자동화 에이전트 GPT-Vision + MCP (2025.07~11)
+        - 연말정산 AI 도우미 챗봇 — 동시 접속 1,000명 부하 테스트 완료 (2025.12~2026.01)
+        - 채팅시스템 RAG 데이터 자동화 파이프라인 구축 (2026.03~ 진행 중)
+        - 사내 채팅 시스템 백엔드 1차 개발 Spring Boot (2024.10~11)
+    - title: AI Researcher (주임 연구원)
+      institution: (주)씨티아이랩 | AI R&D Lab, 서울
+      year: 2023.08 - 2024.06
       description:
-        - Description 1.
-        - Description 2.
-
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
+        - HTTP 패킷 분석 기반 사이버 보안 위협 탐지 NLP 모델 연구
+        - 도메인 특화 Tokenizer 개발 및 PEFT 기반 추론 최적화
+        - 신한은행 AI 탐지 모델 고도화 — 탐지율 80% 이상 달성
+        - 국회도서관·국가보안기술연구소 맞춤형 ETL 파이프라인 구축
+    - title: AI 연구원 (계약직)
+      institution: (주)포스켄 | AI응용서비스개발, 서울
+      year: 2020.09 - 2020.12
       description:
+        - 도면 이미지 딥러닝 객체 인식 프로젝트
+        - 패션 추천 시스템 구축 (개인 선호도 가중치 계산)
 
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
-
-- title: Open Source Projects
+- title: 교육 및 자격증
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - title: 핀테크 특화 AI 엔지니어 부트캠프 (SBA 1기)
+      institution: 서울산업진흥원 · 에이블스쿨, 서울
+      year: 2022.11 - 2023.04
+      description:
+        - 데이터 분석, 머신러닝, 딥러닝
+    - title: SQL개발자 (SQLD)
+      institution: 한국데이터베이스진흥센터
+      year: 2025.09
 
-- title: Honors and Awards
+- title: 논문 및 학회
   type: time_table
   contents:
-    - year: 1921
+    - year: 2022
       items:
-        - Nobel Prize in Physics
-        - Matteucci Medal
-    - year: 2029
-      items:
-        - Max Planck Medal
+        - '"언론 보도의 감정이 IPO 초기수익률에 미치는 영향에 대한 실증연구" — 석사 학위논문'
+        - '"뉴스 기사의 감정이 IPO 초기수익률에 미치는 영향에 대한 실증연구" — KMIS International Conference (발표자)'
 
-- title: Academic Interests
+- title: 기술 스택
   type: nested_list
   contents:
-    - title: Topic 1.
+    - title: LLM / AI 프레임워크
       items:
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
+        - "OpenAI API, LangChain, LangGraph, RAG, PEFT, MCP, vLLM, ollama"
+        - "Transformer, llm-as-a-judge, Prompt Engineering"
+    - title: Machine Learning
       items:
-        - Description 1.
-        - Description 2.
-
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+        - "PyTorch, TensorFlow, scikit-learn, Huggingface"
+    - title: 데이터 분석
+      items:
+        - "Pandas, Matplotlib, Seaborn, Plotly"
+    - title: Database / Vector DB
+      items:
+        - "FAISS, Milvus, Oracle, MySQL"
+    - title: Backend / Infra
+      items:
+        - "Python, FastAPI, Spring Boot, Vue 2, JavaScript"
+        - "Docker, Kubernetes, Linux, Git, Jenkins"
