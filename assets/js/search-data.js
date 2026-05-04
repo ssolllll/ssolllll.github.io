@@ -18,10 +18,17 @@ ninja.data = [{
           },
         },{id: "nav-projects",
           title: "projects",
-          description: "A growing collection of your cool projects.",
+          description: "LLM 기반 서비스 개발 경험을 중심으로 한 프로젝트 목록입니다.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "송한솔의 이력서 및 포트폴리오입니다. PDF 다운로드 버튼을 통해 포트폴리오를 확인하실 수 있습니다.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
           },
         },{id: "nav-repositories",
           title: "repositories",
@@ -222,27 +229,7 @@ ninja.data = [{
             },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
           title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
           description: "",
-          section: "News",},{id: "projects-project-6",
-          title: 'project 6',
-          description: "a project with no image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/6_project/";
-            },},{id: "projects-project-7",
-          title: 'project 7',
-          description: "with background image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/7_project/";
-            },},{id: "projects-project-8",
-          title: 'project 8',
-          description: "an other project with a background image and giscus comments",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/8_project/";
-            },},{id: "projects-project-9",
-          title: 'project 9',
-          description: "another project with an image 🎉",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/9_project/";
-            },},{id: "projects-사이버-보안-위협-탐지-ai-연구",
+          section: "News",},{id: "projects-사이버-보안-위협-탐지-ai-연구",
           title: '사이버 보안 위협 탐지 AI 연구',
           description: "HTTP 패킷 분석을 위한 도메인 특화 Tokenizer 개발 및 이상 탐지(Anomaly Detection) 모델 연구",
           section: "Projects",handler: () => {
@@ -267,47 +254,36 @@ ninja.data = [{
           description: "GPT-Vision과 MCP 기반의 글로벌 비정형 문서 추출 및 검증 자동화",
           section: "Projects",handler: () => {
               window.location.href = "/projects/etners-3-vision/";
+            },},{id: "projects-사내-채팅-시스템-백엔드-개발",
+          title: '사내 채팅 시스템 백엔드 개발',
+          description: "Spring Boot 기반 사내 커뮤니케이션 도구 초기 구조 설계 및 구현",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/etners-4-chat/";
+            },},{id: "projects-연말정산-ai-도우미-챗봇",
+          title: '연말정산 AI 도우미 챗봇',
+          description: "Kubernetes + vLLM 기반 On-premise LLM 서빙 — 동시 접속 1,000명 부하 테스트 완료",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/etners-5-yearend/";
             },},{
-        id: 'social-cv',
-        title: 'CV',
-        section: 'Socials',
-        handler: () => {
-          window.open("/assets/pdf/example_pdf.pdf", "_blank");
-        },
-      },{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
         handler: () => {
-          window.open("mailto:%79%6F%75@%65%78%61%6D%70%6C%65.%63%6F%6D", "_blank");
+          window.open("mailto:%73%6F%6E%67%73%68%73%39%34@%67%6D%61%69%6C.%63%6F%6D", "_blank");
         },
       },{
-        id: 'social-inspire',
-        title: 'Inspire HEP',
+        id: 'social-github',
+        title: 'GitHub',
         section: 'Socials',
         handler: () => {
-          window.open("https://inspirehep.net/authors/1010907", "_blank");
+          window.open("https://github.com/ssolllll", "_blank");
         },
       },{
-        id: 'social-rss',
-        title: 'RSS Feed',
+        id: 'social-cv',
+        title: 'CV',
         section: 'Socials',
         handler: () => {
-          window.open("/feed.xml", "_blank");
-        },
-      },{
-        id: 'social-scholar',
-        title: 'Google Scholar',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://scholar.google.com/citations?user=qc6CJjYAAAAJ", "_blank");
-        },
-      },{
-        id: 'social-custom_social',
-        title: 'Custom_social',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://www.alberteinstein.com/", "_blank");
+          window.open("/assets/pdf/%EC%86%A1%ED%95%9C%EC%86%94_%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf", "_blank");
         },
       },{
       id: 'light-theme',
