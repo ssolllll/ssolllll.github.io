@@ -2,7 +2,7 @@
 layout: page
 title: "AI 에이전트 보안의 핵심: OpenClaw Gateway 아키텍처"
 description: "LLM API 키 노출 방지부터 속도 제한까지, 에이전트 서비스의 보안 강화 전략"
-img: assets/img/openclaw_security_thumb.jpg
+img:
 importance: 4
 category: Security
 ---

@@ -2,7 +2,7 @@
 layout: page
 title: "학자금 지원 서류 자동화 에이전트"
 description: "GPT-Vision과 MCP 기반의 글로벌 비정형 문서 추출 및 검증 자동화"
-img: assets/img/etners_ocr_thumb.jpg
+img:
 importance: 3
 category: Etners
 ---
