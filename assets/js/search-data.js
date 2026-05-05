@@ -30,13 +30,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "nav-repositories",
-          title: "repositories",
-          description: "Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/repositories/";
-          },
         },{id: "post-ai-에이전트-보안의-핵심-openclaw-gateway-아키텍처",
         
           title: "AI 에이전트 보안의 핵심: OpenClaw Gateway 아키텍처",
@@ -222,8 +215,8 @@ ninja.data = [{
           description: "LLM과 Vector DB를 활용하여 사내 문서를 검색하는 시스템 구축",
           section: "Projects",handler: () => {
               window.location.href = "/projects/etners-1-chatbot/";
-            },},{id: "projects-aicc-ai-contact-center-모델-고도화",
-          title: 'AICC (AI Contact Center) 모델 고도화',
+            },},{id: "projects-aicc-모델-고도화",
+          title: 'AICC 모델 고도화',
           description: "LLM 기반 파이프라인 전환을 통한 응답 성공률 21.4% → 97.3% 개선",
           section: "Projects",handler: () => {
               window.location.href = "/projects/etners-2-aicc/";
