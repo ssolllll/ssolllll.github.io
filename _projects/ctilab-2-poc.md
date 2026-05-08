@@ -2,7 +2,7 @@
 layout: page
 title: "금융 및 공공기관 보안 AI POC"
 description: "신한은행 및 국회도서관 대상 위협 탐지 모델 고도화 및 ETL 파이프라인 구축"
-img: assets/img/ctilab_poc_thumb.jpg
+img:
 importance: 2
 category: Ctilab
 ---

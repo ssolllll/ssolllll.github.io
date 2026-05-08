@@ -2,7 +2,7 @@
 layout: page
 title: "고성능 AI 서빙을 위한 로깅 아키텍처: 동기 vs 비동기"
 description: "I/O 병목 제거를 위한 비동기 로깅 파이프라인 구축 및 성능 벤치마크"
-img: assets/img/logging_architecture_thumb.jpg
+img:
 importance: 2
 category: MLOps
 ---

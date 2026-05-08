@@ -2,7 +2,7 @@
 layout: page
 title: "사이버 보안 위협 탐지 AI 연구"
 description: "HTTP 패킷 분석을 위한 도메인 특화 Tokenizer 개발 및 이상 탐지(Anomaly Detection) 모델 연구"
-img: assets/img/ctilab_packet_thumb.jpg
+img:
 importance: 1
 category: Ctilab
 ---

@@ -1,8 +1,8 @@
 ---
 layout: page
-title: "AICC (AI Contact Center) 모델 고도화"
+title: "AICC 모델 고도화"
 description: "LLM 기반 파이프라인 전환을 통한 응답 성공률 21.4% → 97.3% 개선"
-img: assets/img/etners_aicc_thumb.jpg
+img:
 importance: 1
 category: Etners
 ---

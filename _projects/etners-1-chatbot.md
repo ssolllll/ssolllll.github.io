@@ -2,7 +2,7 @@
 layout: page
 title: "사내 규정 검색 RAG 챗봇"
 description: "LLM과 Vector DB를 활용하여 사내 문서를 검색하는 시스템 구축"
-img: assets/img/project_etners_thumbnail.jpg  # 썸네일 이미지
+img:
 importance: 1  # 1번이 가장 먼저 뜸
 category: Etners # projects.md의 display_categories와 철자가 정확히 같아야 함
 related_publications: false

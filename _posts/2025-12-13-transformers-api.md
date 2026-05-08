@@ -137,6 +137,26 @@ args = TrainingArguments(
 
 ---
 
+## 4. Gradient Checkpointing: VRAM 부족 시 최후의 수단
+
+LLM을 파인튜닝할 때 VRAM이 부족한 또 다른 이유는 **Activation(활성화값)** 때문이다. Forward Pass에서 계산된 모든 레이어의 중간값을 Backward Pass(역전파)를 위해 메모리에 쌓아두기 때문이다.
+
+**Gradient Checkpointing**은 Activation을 저장하지 않고, Backward Pass 시 필요한 시점에 다시 계산(재연산)하는 방식이다. 연산량이 약 33% 증가하는 대신 Activation 메모리를 대폭 줄여준다.
+
+```python
+args = TrainingArguments(
+    output_dir="./results",
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=8,
+    fp16=True,
+    gradient_checkpointing=True,  # Activation 메모리 절약 (속도 약 20% 저하 감수)
+)
+```
+
+> **Engineering Trade-off:** `gradient_checkpointing=True`는 학습 속도를 약 20% 느리게 만든다. 하지만 OOM으로 학습이 불가한 상황에서는 선택이 아닌 필수다. QLoRA + Gradient Checkpointing 조합은 소비자 GPU(RTX 4090, 24GB)에서 13B 모델을 파인튜닝하는 실질적인 표준이 되었다.
+
+---
+
 ## 결론
 
 `Trainer` API를 잘 쓴다는 것은 단순히 코드를 줄이는 것을 넘어, **실험의 재현성(Reproducibility)**과 **운영의 안정성(Stability)**을 확보한다는 의미다.
@@ -144,5 +164,6 @@ args = TrainingArguments(
 1.  **Arguments:** 복잡한 학습 설정을 dataclass 하나로 관리.
 2.  **Callback:** 학습 과정에 유연하게 개입하여 Custom Logic 실행.
 3.  **Checkpointing:** 디스크 용량 관리 자동화.
+4.  **Gradient Checkpointing:** VRAM 부족 시 Activation 메모리를 연산으로 교환.
 
 이제 모델을 학습시키는 파이프라인까지 구축했다. 마지막 단계는 학습된 거대 모델을 더 작고 빠르게 만드는 **"5. Optimization: 양자화(Quantization)와 효율화 기법"**이다. 다음 포스트에서 시리즈를 마무리해보자.
