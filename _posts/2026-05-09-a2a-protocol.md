@@ -14,7 +14,7 @@ categories: engineering
 MCP가 에이전트의 "손"을 표준화했다면, **A2A(Agent-to-Agent Protocol)는 에이전트의 "대화"를 표준화**한다.
 
 ---
-
+ 
 ## 1. 왜 A2A가 필요한가
 
 MCP를 쓰면 에이전트 하나가 Slack, DB, 코드 실행기 같은 도구들을 통일된 방식으로 다룰 수 있다. 잘 작동한다.
