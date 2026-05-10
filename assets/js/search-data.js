@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-ai-에이전트-보안의-핵심-openclaw-gateway-아키텍처",
+        },{id: "post-정보처리기사-1과목-소프트웨어-설계-소프트웨어-개발-방법론",
+        
+          title: "[정보처리기사] 1과목 소프트웨어 설계 - 소프트웨어 개발 방법론",
+        
+        description: "정보처리기사 1과목 소프트웨어 설계, 소프트웨어 개발 방법론 개념 정리",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/jungbo-1-1-sw-methodology/";
+          
+        },
+      },{id: "post-a2a-mcp-다음은-a2a-에이전트끼리-대화하는-법",
+        
+          title: "[A2A] MCP 다음은 A2A: 에이전트끼리 대화하는 법",
+        
+        description: "Google이 설계하고 Linux Foundation이 표준화한 A2A Protocol. MCP가 에이전트와 도구를 잇는다면, A2A는 에이전트와 에이전트를 잇는다. 개념부터 실제 구현까지.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/a2a-protocol/";
+          
+        },
+      },{id: "post-ai-에이전트-보안의-핵심-openclaw-gateway-아키텍처",
         
           title: "AI 에이전트 보안의 핵심: OpenClaw Gateway 아키텍처",
         
