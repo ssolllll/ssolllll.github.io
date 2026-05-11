@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-정보처리기사-1과목-소프트웨어-설계-소프트웨어-개발-방법론",
+        },{id: "post-정보처리기사-1과목-소프트웨어-설계-현행-시스템-파악",
+        
+          title: "[정보처리기사] 1과목 소프트웨어 설계 - 현행 시스템 파악",
+        
+        description: "정보처리기사 1과목 소프트웨어 설계, 현행 시스템 파악 개념 정리",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/jungbo-1-2-current-system/";
+          
+        },
+      },{id: "post-정보처리기사-1과목-소프트웨어-설계-소프트웨어-개발-방법론",
         
           title: "[정보처리기사] 1과목 소프트웨어 설계 - 소프트웨어 개발 방법론",
         
