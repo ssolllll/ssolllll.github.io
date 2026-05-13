@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-정보처리기사-1과목-소프트웨어-설계-요구사항-분석",
+        },{id: "post-정보처리기사-1과목-소프트웨어-설계-uml",
+        
+          title: "[정보처리기사] 1과목 소프트웨어 설계 - UML",
+        
+        description: "정보처리기사 1과목 소프트웨어 설계, UML 개념 정리",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/jungbo-1-4-uml/";
+          
+        },
+      },{id: "post-정보처리기사-1과목-소프트웨어-설계-요구사항-분석",
         
           title: "[정보처리기사] 1과목 소프트웨어 설계 - 요구사항 분석",
         
