@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-정보처리기사-1과목-소프트웨어-설계-uml",
+        },{id: "post-정보처리기사-1과목-소프트웨어-설계-ui-ux-설계",
+        
+          title: "[정보처리기사] 1과목 소프트웨어 설계 - UI/UX 설계",
+        
+        description: "정보처리기사 1과목 소프트웨어 설계, UI/UX 설계 개념 정리",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/jungbo-1-6-ui-ux/";
+          
+        },
+      },{id: "post-정보처리기사-1과목-소프트웨어-설계-소프트웨어-아키텍처",
+        
+          title: "[정보처리기사] 1과목 소프트웨어 설계 - 소프트웨어 아키텍처",
+        
+        description: "정보처리기사 1과목 소프트웨어 설계, 소프트웨어 아키텍처 개념 정리",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/jungbo-1-5-sw-architecture/";
+          
+        },
+      },{id: "post-정보처리기사-1과목-소프트웨어-설계-uml",
         
           title: "[정보처리기사] 1과목 소프트웨어 설계 - UML",
         
